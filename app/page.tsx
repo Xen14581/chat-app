@@ -6,12 +6,33 @@ import { TypographyLarge } from "@/components/ui/typographylarge";
 import { TypographyMuted } from "@/components/ui/typographymuted";
 import { ProjectCard } from "../components/projectcard";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+import { cn } from "@/lib/utils"
+
 import { Settings2, SendHorizontal, FileText } from "lucide-react";
 
 import { useState, useEffect } from "react";
 
+import Message from "../components/message";
+
+interface colors {
+  true: string;
+  false: string;
+}
+
+const colors = {
+  true: "bg-slate-700 w-full px-48",
+  false: "bg-slate-800 w-full px-48",
+};
+
 export default function Home() {
-  const [state, setState] = useState({ text: "" });
+  const [state, setState] = useState({
+    text: "",
+    projects: [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    ],
+    messages: [{ user: "true", message: "Hello" }, { user: "false", message: "Hello" }],
+  });
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setState({ ...state, text: e.target.value });
@@ -29,10 +50,7 @@ export default function Home() {
 
           <ScrollArea className="h-full">
             <div className="grid grid-cols-1 gap-0 py-2">
-              {[
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-                19, 20,
-              ].map((el) => (
+              {state.projects.map((el) => (
                 <ProjectCard key={el} title={`Project ${el}`} />
               ))}
             </div>
@@ -55,8 +73,16 @@ export default function Home() {
         <div className="w-full h-[8%] bg-transparent"></div>
 
         {/* Chats */}
-        <div className="w-full h-[77%] px-48">
-            
+        <div className="w-full h-[77%]">
+          <ScrollArea className="h-full">
+            {state.messages.map((e) => (
+              <Message
+                user={e.user}
+                text={e.message}
+                className={cn(colors[e.user as keyof typeof colors], 'py-8')}
+              />
+            ))}
+          </ScrollArea>
         </div>
 
         {/* Inputs */}

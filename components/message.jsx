@@ -1,7 +1,5 @@
-const message = ({ text }) => {
-  return (
-    <div>message</div>
-  )
-}
+const Message = ({ user, text, className }) => {
+  return <div className={className}>{text}</div>;
+};
 
-export default message
+export default Message;
