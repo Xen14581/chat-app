@@ -1,14 +1,24 @@
-import { Input } from "@/components/ui/input";
+"use client";
+
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { TypographyLarge } from "@/components/ui/typographylarge";
 import { TypographyMuted } from "@/components/ui/typographymuted";
 import { ProjectCard } from "../components/projectcard";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Settings2 } from "lucide-react";
+import { Settings2, SendHorizontal, FileText } from "lucide-react";
+
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [state, setState] = useState({ text: "" });
+
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setState({ ...state, text: e.target.value });
+  };
+
   return (
-    <main className="min-h-screen grid grid-cols-5 overflow-hidden">
+    <main className="h-screen grid grid-cols-5 overflow-hidden">
       {/* Projects Sidebar */}
       <div className="bg-slate-900 w-full h-screen col-span-1 p-4 flex flex-col">
         <Button variant="outline" className="w-full">
@@ -40,17 +50,29 @@ export default function Home() {
       </div>
 
       {/* Chat window */}
-      <div className="bg-slate-800 w-full h-full col-span-4 flex flex-col">
+      <div className="bg-slate-800 w-full h-screen col-span-4 flex flex-col">
+        {/* Navbar */}
+        <div className="w-full h-[8%] bg-transparent"></div>
+
         {/* Chats */}
-        <div className="w-full flex-auto"></div>
+        <div className="w-full h-[77%] px-48">
+            
+        </div>
 
         {/* Inputs */}
-        <div className="w-full h-1/6 flex items-center justify-center">
-          <Input
-            type="text"
+        <div className="w-full h-[15%] flex items-center justify-between px-48">
+          <FileText />
+          <Textarea
             placeholder="Type here"
-            className="w-3/5 h-2/5 bg-background"
+            rows={
+              Math.floor(state.text.length / 75) + 1 < 3
+                ? Math.floor(state.text.length / 75) + 1
+                : 3
+            }
+            className="w-5/6 min-h-1/5 bg-background resize-none"
+            onChange={onChange}
           />
+          <SendHorizontal />
         </div>
       </div>
     </main>
